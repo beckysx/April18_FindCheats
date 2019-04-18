@@ -76,23 +76,34 @@ points.forEach(function(bigd,bigi){
 
       })
     })
-    
+
+
+
+  var legend= d3.select("body").append("svg")
+
   // legend color
   var linearGradient=
-  svg.append("defs").append("linearGradient")
+  legend.append("defs").append("linearGradient")
   .attr('id', 'colorchange')
   .attr('x1', "0%")
   .attr('y1', "0%")
   .attr('x2', "100%")
-  .attr('y2', "100%")
+  .attr('y2', "0%")
 
   linearGradient.append("stop")
   .attr('offset', "50%")
-  .attr('stop-color', "#D7EDF3")
+  .attr('stop-color', colorstart.toString())
 
   linearGradient.append("stop")
   .attr('offset', "100%")
-  .attr('stop-color', '#6DC0D5')
+  .attr('stop-color', colorend.toString())
+
+  legend.append("rect")
+      .attr('x',1000 )
+      .attr('y',400 )
+      .attr('width', 400)
+      .attr('height', 100)
+      .style('fill', 'url(#'+linearGradient.attr('id')+')');
 
 
 
