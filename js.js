@@ -53,19 +53,44 @@ var drawChart=function(d){
       .domain([0,24])
       .range([margin.top,h+margin.top]);
 
-console.log(points)
+  var colorstart=d3.rgb(229, 240, 246)
+  var colorend=d3.rgb(82, 128, 153)
+  var colorScale = d3.interpolate(colorstart,colorend)
+
 points.forEach(function(bigd,bigi){
   svg.append("g").attr('id', "g"+bigi)
-  d3.select("#g"+bigi).selectAll("rect").data(points).enter().append("rect")
-      .attr('x', xScale(bigi))
-      .attr('y', function(d,i){
-        return yScale(i)
-      })
+  d3.select("#g"+bigi).selectAll("rect").data(points[bigi]).enter().append("rect")
+      .attr('x', function(d,i){return xScale(i)})
+      .attr('y', yScale(bigi))
       .attr('width', rectwidth)
       .attr('height', rectwidth)
-      .style('fill', '#111');
+      .style('fill', function(d){
+        if (d<0){
+          return "#E5F0F6"
+        }
+        else {return colorScale(d)}
 
-})
+      })
+    })
+
+  var linearGradient=
+  svg.append("defs").append("linearGradient")
+  .attr('id', 'colorchange')
+  .attr('x1', "0%")
+  .attr('y1', "0%")
+  .attr('x2', "100%")
+  .attr('y2', "100%")
+
+  linearGradient.append("stop")
+  .attr('offset', "50%")
+  .attr('stop-color', "#D7EDF3")
+
+  linearGradient.append("stop")
+  .attr('offset', "100%")
+  .attr('stop-color', '#6DC0D5')
+
+
+
 
 }
 
