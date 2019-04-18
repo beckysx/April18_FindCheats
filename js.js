@@ -34,7 +34,7 @@ var combination=function(d){
 }
 var drawChart=function(d){
   var points=combination(d)
-  var screen={width:600,height:600};
+  var screen={width:700,height:700};
   var margin = {top: 20, right: 100, bottom: 100, left: 20};
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
@@ -43,14 +43,14 @@ var drawChart=function(d){
   .attr('width', w)
   .attr('height', h)
 
-  var rectwidth=w/points.length
+  var rectwidth=22
 
   var xScale=d3.scaleLinear()
-      .domain([0,22])
+      .domain([0,24])
       .range([margin.left,w+margin.left]);
 
   var yScale=d3.scaleLinear()
-      .domain([0,22])
+      .domain([0,24])
       .range([margin.top,h+margin.top]);
 
 console.log(points)
