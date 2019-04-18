@@ -33,7 +33,9 @@ var combination=function(d){
   return colomn
 }
 var drawChart=function(d){
+
   var points=combination(d)
+
   var screen={width:700,height:700};
   var margin = {top: 20, right: 100, bottom: 100, left: 20};
   var w = screen.width - margin.left - margin.right;
@@ -45,6 +47,7 @@ var drawChart=function(d){
 
   var rectwidth=22
 
+  // scales
   var xScale=d3.scaleLinear()
       .domain([0,24])
       .range([margin.left,w+margin.left]);
@@ -57,6 +60,7 @@ var drawChart=function(d){
   var colorend=d3.rgb(82, 128, 153)
   var colorScale = d3.interpolate(colorstart,colorend)
 
+  // draw rects
 points.forEach(function(bigd,bigi){
   svg.append("g").attr('id', "g"+bigi)
   d3.select("#g"+bigi).selectAll("rect").data(points[bigi]).enter().append("rect")
@@ -72,7 +76,8 @@ points.forEach(function(bigd,bigi){
 
       })
     })
-
+    
+  // legend color
   var linearGradient=
   svg.append("defs").append("linearGradient")
   .attr('id', 'colorchange')
