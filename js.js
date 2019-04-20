@@ -36,8 +36,8 @@ var drawChart=function(d){
 
   var points=combination(d)
 
-  var screen={width:780,height:630};
-  var margin = {top: 30, right: 100, bottom: 20, left: 100};
+  var screen={width:780,height:700};
+  var margin = {top: 100, right: 100, bottom: 20, left: 100};
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
 
@@ -93,34 +93,53 @@ points.forEach(function(bigd,bigi){
         var name=first.concat(c)
         return gname+" & "+name
       })
-      .on('mouseover',function(){
+      .on('mouseover',function(d){
         var rect=d3.select(this)
         rect.attr("stroke","black")
         .attr('stroke-width', 2)
         var x=d3.select(this).attr('x')
         var y=d3.select(this).attr('y')
         var name=d3.select(this).attr('id')
+        svg.append('rect')
+        .attr('id', 'back')
+        .attr('x',x-5)
+        .attr('y',y-50)
+        .attr('width', 180)
+        .attr('height',48)
+        .style('fill', '#CBD6CF');
+
         svg.append('text')
-        .attr('id', 'tooltip')
+        .attr('id', 'names')
         .attr('x', x)
-        .attr('y', y-10)
-        .attr("text-anchor", "middle")
+        .attr('y', y-30)
         .attr('font-family', 'Raleway')
 		    .attr("font-size", "15px")
 		    .attr("font-weight", "bold")
 		    .attr("fill", "black")
 		    .text(name)
+
+        svg.append('text')
+        .attr('id', 'corrolation')
+        .attr('x', x)
+        .attr('y', y-10)
+        .attr('font-family', 'Raleway')
+		    .attr("font-size", "15px")
+		    .attr("font-weight", "bold")
+		    .attr("fill", "black")
+		    .text("r: "+d.toFixed(2))
       } )
       .on('mouseout', function(){
         var rect=d3.select(this)
         rect.attr("stroke","none")
-        d3.select("#tooltip").remove()
+        d3.select("#names").remove()
+        d3.select("#corrolation").remove()
+        d3.select("#back").remove()
       })
     })
 
 
 
-  var legend= d3.select("body").append("svg")
+  var legend= d3.select("body").append("svg").attr('id', 'legend').attr('width', 500).attr('height', 100)
 
   // legend color
   var linearGradient=
@@ -140,12 +159,43 @@ points.forEach(function(bigd,bigi){
   .attr('stop-color', colorend.toString())
 
   legend.append("rect")
-      .attr('x',1000 )
-      .attr('y',400 )
+      .attr('x',0 )
+      .attr('y',30 )
       .attr('width', 400)
-      .attr('height', 100)
-      .style('fill', 'url(#'+linearGradient.attr('id')+')');
+      .attr('height', 50)
+      .style('fill', 'url(#'+linearGradient.attr('id')+')')
 
+  legend.append("text")
+  .attr('id', '-1')
+  .attr('x', 0)
+  .attr('y', 15)
+  .attr('font-family', 'Raleway')
+  .attr("font-size", "15px")
+  .attr("font-weight", "bold")
+  .attr("fill", "black")
+  .text("-1.0")
+
+  legend.append("text")
+  .attr('id', '0')
+  .attr('x', 200)
+  .attr('y', 15)
+  .attr("text-anchor", "middle")
+  .attr('font-family', 'Raleway')
+  .attr("font-size", "15px")
+  .attr("font-weight", "bold")
+  .attr("fill", "black")
+  .text("0")
+
+  legend.append("text")
+  .attr('id', '0')
+  .attr('x', 400)
+  .attr('y', 15)
+  .attr("text-anchor", "middle")
+  .attr('font-family', 'Raleway')
+  .attr("font-size", "15px")
+  .attr("font-weight", "bold")
+  .attr("fill", "black")
+  .text("1.0")
 
 
 

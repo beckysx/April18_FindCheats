@@ -8,18 +8,33 @@
   }
   .title{
     font-size: 30px;
-    position: relative;
-    left:580px;
-    top: 30px;
+    position: absolute;
+    left: 890px;
+    top: 70px;
   }
-    #mainchart{
-      position: relative;
-      left: 300px;
-    }
+  #mainchart{
+    position: absolute;
+    left: 20px;
+    top: 0px;
+  }
+  #legend{
+    position: absolute;
+    left: 800px;
+    top: 170px;
+  }
+
   </style>
 </head>
 <body >
   <p class="title">Find the Cheat</p>
+  <div class="explain">
+    <ul>
+      <li>Each square represents two penguins</li>
+      <li>When r is less than 0, two penguins' scores has nothing to do with each other</li>
+      <li>As r gets closer and closer to 1, two penguins' scores have higher matching-rate</li>
+    </ul>
+
+  </div>
 </body>
 <script type="text/javascript" src="js.js"></script>
 </html>
