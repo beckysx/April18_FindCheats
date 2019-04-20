@@ -36,14 +36,15 @@ var drawChart=function(d){
 
   var points=combination(d)
 
-  var screen={width:700,height:700};
-  var margin = {top: 20, right: 100, bottom: 100, left: 20};
+  var screen={width:780,height:630};
+  var margin = {top: 30, right: 100, bottom: 20, left: 100};
   var w = screen.width - margin.left - margin.right;
   var h = screen.height - margin.top - margin.bottom;
 
   var svg=d3.select("body").append("svg")
-  .attr('width', w)
-  .attr('height', h)
+  .attr('width', screen.width)
+  .attr('height', screen.height)
+  .attr('id', 'mainchart')
 
   var rectwidth=22
 
@@ -63,6 +64,15 @@ var drawChart=function(d){
   // draw rects
 points.forEach(function(bigd,bigi){
   svg.append("g").attr('id', "g"+bigi)
+  .attr('name', function(){
+    var picture=d[bigi].picture
+    var a=picture.indexOf("-")
+    var b=picture.substring(0,a)
+    var first=b.charAt(0).toUpperCase()
+    var c=b.substring(1)
+    var name=first.concat(c)
+    return name
+  })
   d3.select("#g"+bigi).selectAll("rect").data(points[bigi]).enter().append("rect")
       .attr('x', function(d,i){return xScale(i)})
       .attr('y', yScale(bigi))
@@ -72,8 +82,39 @@ points.forEach(function(bigd,bigi){
         if (d<0){
           return "#E5F0F6"
         }
-        else {return colorScale(d)}
-
+        else {return colorScale(d)}})
+      .attr('id', function(data,i){
+        var gname=d3.select("#g"+bigi).attr('name')
+        var picture=d[i].picture
+        var a=picture.indexOf("-")
+        var b=picture.substring(0,a)
+        var first=b.charAt(0).toUpperCase()
+        var c=b.substring(1)
+        var name=first.concat(c)
+        return gname+" & "+name
+      })
+      .on('mouseover',function(){
+        var rect=d3.select(this)
+        rect.attr("stroke","black")
+        .attr('stroke-width', 2)
+        var x=d3.select(this).attr('x')
+        var y=d3.select(this).attr('y')
+        var name=d3.select(this).attr('id')
+        svg.append('text')
+        .attr('id', 'tooltip')
+        .attr('x', x)
+        .attr('y', y-10)
+        .attr("text-anchor", "middle")
+        .attr('font-family', 'Raleway')
+		    .attr("font-size", "15px")
+		    .attr("font-weight", "bold")
+		    .attr("fill", "black")
+		    .text(name)
+      } )
+      .on('mouseout', function(){
+        var rect=d3.select(this)
+        rect.attr("stroke","none")
+        d3.select("#tooltip").remove()
       })
     })
 
